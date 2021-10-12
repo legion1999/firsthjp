@@ -1,9 +1,10 @@
 package main
 
 import (
+	"strconv"
+
 	"github.com/asim/go-micro/v3/registry"
 	"github.com/asim/go-micro/v3/server"
-	"strconv"
 
 	"github.com/asim/go-micro/v3"
 	log "github.com/asim/go-micro/v3/logger"
@@ -105,13 +106,13 @@ func (a *demoRouter) PostDanmaku(c *gin.Context) {
 
 func (a *demoRouter) GetDanmakuList(c *gin.Context) {
 	//channelID := c.Param("id")
-	// TODO: 
+	// TODO:
 	// your works are:
 	// 1. query data from database
 	// 2. process data to type `[]danmakuResp`
 	// 3. return
 
-	data := danmakuResp{1, 2, 3, "author", "hello world"}
+	data := danmakuResp{1, 2, 3, "author", "123456"}
 
 	c.JSON(200, gin.H{"msg": data})
 }
