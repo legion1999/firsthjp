@@ -88,7 +88,6 @@ func (a *demoRouter) PostDanmaku(c *gin.Context) {
 		c.JSON(501, gin.H{"code": 1, "msg": "Failed When Parse Channnel ID."})
 		return
 	}
-	strconv.Atoi(c.Param("id"))
 	var dmk danmaku
 
 	if err := c.ShouldBindJSON(&dmk); err == nil {
@@ -105,14 +104,18 @@ func (a *demoRouter) PostDanmaku(c *gin.Context) {
 }
 
 func (a *demoRouter) GetDanmakuList(c *gin.Context) {
-	//channelID := c.Param("id")
+	channelID, err := strconv.ParseUint(c.Param("id"), 10, 0)
 	// TODO:
 	// your works are:
 	// 1. query data from database
 	// 2. process data to type `[]danmakuResp`
 	// 3. return
+	if err != nil {
+		c.JSON(501, gin.H{"code": 1, "msg": "Failed When Parse Channnel ID."})
+		return
+	}
+	dmk := a.dbConnector.GetDanmakuListByChannel(channelID)
+	data := danmakuResp{dmk}
 
-	data := danmakuResp{1, 2, 3, "author", "123456"}
-
-	c.JSON(200, gin.H{"msg": data})
+	c.JSON(200, gin.H{"code": 0, "data": data})
 }
